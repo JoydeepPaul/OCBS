@@ -1,13 +1,12 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-// Create database connection
-const dbPath = path.join(__dirname, 'cinema_booking.db');
-const db = new sqlite3.Database(dbPath, (err) => {
+// Create database connection - use in-memory for serverless environment
+const db = new sqlite3.Database(':memory:', (err) => {
     if (err) {
         console.error('Error opening database:', err.message);
     } else {
-        console.log('Connected to SQLite database');
+        console.log('Connected to SQLite in-memory database');
         initializeDatabase();
     }
 });
