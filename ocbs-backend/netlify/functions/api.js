@@ -175,4 +175,4 @@ app.post('/reset-password', async (req, res) => {
     }
 });
 
-module.exports.handler = serverless(app);
+exports.handler = serverless(app);
