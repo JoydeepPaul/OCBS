@@ -1,0 +1,26 @@
+{
+  "name": "ocbs-full-stack",
+  "version": "1.0.0",
+  "description": "Online Cinema Booking System - Full Stack Application",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd ocbs-frontend && npm install && npm run build",
+    "start": "cd ocbs-backend && npm start",
+    "dev": "concurrently \"cd ocbs-backend && npm run dev\" \"cd ocbs-frontend && npm start\"",
+    "install-all": "cd ocbs-backend && npm install && cd ../ocbs-frontend && npm install"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "sqlite3": "^5.1.6",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "keywords": ["cinema", "booking", "react", "nodejs", "sqlite"],
+  "author": "Joydeep Paul",
+  "license": "MIT"
+}
