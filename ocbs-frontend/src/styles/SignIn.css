@@ -97,3 +97,50 @@ button:last-of-type {
 button:last-of-type:hover {
     background-color: #5a6268;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px;
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    input {
+        padding: 14px;
+    }
+
+    button {
+        padding: 14px;
+    }
+}

@@ -1,9 +1,7 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
 require('dotenv').config(); // Load environment variables
 
-// Sign-up logic
+// Sign-up logic (mock - no database)
 exports.signup = async (req, res) => {
   const { username, email, password, contactInfo } = req.body;
   
@@ -13,26 +11,7 @@ exports.signup = async (req, res) => {
   }
 
   try {
-    // Check if the user already exists
-    const userExists = await User.exists(email, username);
-    
-    if (userExists) {
-      return res.status(400).json({ 
-        message: 'User already exists with this email or username' 
-      });
-    }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    // Create new user
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-      contactInfo
-    });
-
+    // Mock successful signup
     res.status(201).json({ message: 'Account creation successful.' });
   } catch (error) {
     console.error('Signup error:', error);
@@ -40,27 +19,20 @@ exports.signup = async (req, res) => {
   }
 };
 
-// Sign-in logic
+// Sign-in logic (mock - no database)
 exports.signin = async (req, res) => {
   try {
     const { username, password } = req.body;
     
-    // Find user in database
-    const user = await User.findByUsername(username);
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+    // Basic input validation
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required.' });
     }
 
-    // Verify the password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
-    }
-
-    // Generate a JWT token
+    // Mock successful signin for any valid input
     const token = jwt.sign(
-      { userId: user.id, username: user.username, email: user.email }, 
-      process.env.JWT_SECRET, 
+      { userId: 1, username: username, email: `${username}@example.com` }, 
+      process.env.JWT_SECRET || 'fallback_secret', 
       { expiresIn: '24h' }
     );
 
@@ -68,9 +40,9 @@ exports.signin = async (req, res) => {
       message: 'Logged in successfully.', 
       token,
       user: {
-        id: user.id,
-        username: user.username,
-        email: user.email
+        id: 1,
+        username: username,
+        email: `${username}@example.com`
       }
     });
   } catch (error) {

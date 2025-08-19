@@ -74,3 +74,44 @@ button[type="submit"]:hover {
 .go-back-btn:hover {
     color: #0056b3;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    button[type="submit"] {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+}
