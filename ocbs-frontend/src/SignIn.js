@@ -17,25 +17,12 @@ function SignIn() {
         }
 
         try {
-            // Update this URL to match the backend endpoint for sign-in
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/signin`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                alert('Sign In Successful');
-                // Save the token (if using JWT) and navigate
-                localStorage.setItem('token', data.token); // Store token in localStorage
-                navigate('/dashboard'); // Redirect to the dashboard after successful sign-in
-            } else {
-                setErrorMessage(data.message || 'Sign In failed');
-            }
+            // Mock successful signin without API call
+            alert('Sign In Successful');
+            // Generate a mock token and save it
+            const mockToken = `mock_token_${username}_${Date.now()}`;
+            localStorage.setItem('token', mockToken);
+            navigate('/dashboard'); // Redirect to the dashboard after successful sign-in
         } catch (error) {
             setErrorMessage('Error: Unable to sign in. Please try again later.');
         }

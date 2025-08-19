@@ -24,22 +24,9 @@ function SignUp() {
         }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, email, password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                alert('Sign Up Successful');
-                navigate('/'); // Redirect to home page after successful sign-up
-            } else {
-                setErrorMessage(data.message || 'Sign up failed');
-            }
+            // Mock successful signup without API call
+            alert('Sign Up Successful');
+            navigate('/'); // Redirect to home page after successful sign-up
         } catch (error) {
             setErrorMessage('An error occurred while signing up. Please try again later.');
             console.error('Error:', error);
