@@ -9,7 +9,6 @@ function SeatSelection() {
   const navigate = useNavigate();
 
   const totalSeats = 30; // Total number of seats in the theater
-  const seatsPerRow = 6; // Number of seats per row
   const basePrice = 200; // Base price for one person (in currency, e.g., 200 INR)
 
   const handleSeatClick = (seat) => {
