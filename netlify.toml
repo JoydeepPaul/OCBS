@@ -1,6 +1,5 @@
 [build]
-  base = "ocbs-frontend"
-  command = "npm install && npm run build"
+  command = "npm --prefix ocbs-frontend install && npm --prefix ocbs-frontend run build"
   publish = "ocbs-frontend/build"
   functions = "netlify/functions"
 
