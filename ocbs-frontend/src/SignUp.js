@@ -10,12 +10,6 @@ function SignUp() {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-    // Password strength validation function
-    const validatePassword = (password) => {
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-        return passwordRegex.test(password);
-    };
-
     const handleSignUp = async (e) => {
         e.preventDefault();
         
@@ -24,8 +18,8 @@ function SignUp() {
             return;
         }
 
-        if (!validatePassword(password)) {
-            setErrorMessage('Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, a number, and a special character.');
+        if (password.length < 3) {
+            setErrorMessage('Password must be at least 3 characters long.');
             return;
         }
 
