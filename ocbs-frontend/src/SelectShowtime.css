@@ -1,0 +1,113 @@
+/* SelectShowtime.css */
+
+.select-showtime-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.select-showtime-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  text-transform: uppercase;
+}
+
+.movie-name {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #34495e;
+}
+
+.date-picker-wrapper,
+.select-wrapper {
+  margin-bottom: 20px;
+}
+
+.date-label,
+.time-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #7f8c8d;
+  text-align: left;
+}
+
+.select-date-input,
+.select-showtime-dropdown {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: #f5f5f5;
+}
+
+.select-date-input:hover,
+.select-showtime-dropdown:hover {
+  border-color: #3498db;
+  background-color: #ffffff;
+}
+
+.select-date-input:focus,
+.select-showtime-dropdown:focus {
+  border-color: #2980b9;
+  box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+}
+
+.select-showtime-btn {
+  display: inline-block;
+  padding: 12px 25px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #3498db;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.select-showtime-btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.select-showtime-btn:active {
+  background-color: #1f618d;
+  transform: translateY(0);
+}
+
+.select-showtime-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Additional Styling for a Polished Look */
+body {
+  background-color: #ecf0f1;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.select-showtime-container::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, #3498db, #8e44ad);
+  border-radius: 2px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}

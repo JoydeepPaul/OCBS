@@ -1,0 +1,111 @@
+/* src/components/Home.css */
+
+/* Home container */
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  /* Full viewport height */
+  width: 100vw;  /* Full viewport width */
+  background: linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%); /* Gradient background */
+  position: fixed;  /* Ensure it stays fixed on the screen */
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;  /* Prevents any unwanted scrollbars */
+}
+
+/* Home content */
+.home-content {
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 1;  /* Ensures content stays on top of the background */
+}
+
+.home-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.home-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.btn {
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-signin {
+  background-color: #007bff; /* Primary Blue */
+  color: white;
+}
+
+.btn-signup {
+  background-color: #28a745; /* Success Green */
+  color: white;
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-signin:hover {
+  background-color: #0056b3; /* Darker Blue */
+}
+
+.btn-signup:hover {
+  background-color: #218838; /* Darker Green */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .home-content {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .home-title {
+    font-size: 2.5rem;
+  }
+
+  .home-subtitle {
+    font-size: 1rem;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+}
