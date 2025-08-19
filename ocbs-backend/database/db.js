@@ -1,19 +1,13 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const { createClient } = require('@libsql/client');
 
-// Create database connection
-const dbPath = path.join(__dirname, 'cinema_booking.db');
-const db = new sqlite3.Database(dbPath, (err) => {
-    if (err) {
-        console.error('Error opening database:', err.message);
-    } else {
-        console.log('Connected to SQLite database');
-        initializeDatabase();
-    }
+// Create Turso client
+const db = createClient({
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN,
 });
 
 // Initialize database tables
-function initializeDatabase() {
+async function initializeDatabase() {
     const createUsersTable = `
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,106 +19,97 @@ function initializeDatabase() {
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `;
-
-    db.run(createUsersTable, (err) => {
-        if (err) {
-            console.error('Error creating users table:', err.message);
-        } else {
-            console.log('Users table ready');
-        }
-    });
+    try {
+        await db.execute(createUsersTable);
+        console.log('Users table ready');
+    } catch (err) {
+        console.error('Error creating users table:', err.message);
+    }
 }
+
+// Call initialization
+initializeDatabase();
 
 // Database operations
 const dbOperations = {
     // Create new user
-    createUser: (userData) => {
-        return new Promise((resolve, reject) => {
-            const { username, email, password, contactInfo } = userData;
-            const sql = `INSERT INTO users (username, email, password, contactInfo) VALUES (?, ?, ?, ?)`;
-            
-            db.run(sql, [username, email, password, contactInfo], function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve({ id: this.lastID, username, email, contactInfo });
-                }
-            });
+    createUser: async (userData) => {
+        const { username, email, password, contactInfo } = userData;
+        const sql = `INSERT INTO users (username, email, password, contactInfo) VALUES (?, ?, ?, ?)`;
+        
+        const result = await db.execute({
+            sql,
+            args: [username, email, password, contactInfo],
         });
+
+        return { id: result.lastInsertRowid, username, email, contactInfo };
     },
 
     // Find user by email or username
-    findUser: (identifier, type = 'username') => {
-        return new Promise((resolve, reject) => {
-            const sql = `SELECT * FROM users WHERE ${type} = ?`;
-            
-            db.get(sql, [identifier], (err, row) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(row);
-                }
-            });
+    findUser: async (identifier, type = 'username') => {
+        const safeType = ['username', 'email'].includes(type) ? type : 'username';
+        const sql = `SELECT * FROM users WHERE ${safeType} = ?`;
+        
+        const result = await db.execute({
+            sql,
+            args: [identifier],
         });
+
+        return result.rows.length > 0 ? result.rows[0] : null;
     },
 
     // Check if user exists by email or username
-    userExists: (email, username) => {
-        return new Promise((resolve, reject) => {
-            const sql = `SELECT * FROM users WHERE email = ? OR username = ?`;
-            
-            db.get(sql, [email, username], (err, row) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(!!row);
-                }
-            });
+    userExists: async (email, username) => {
+        const sql = `SELECT 1 FROM users WHERE email = ? OR username = ? LIMIT 1`;
+        
+        const result = await db.execute({
+            sql,
+            args: [email, username],
         });
+
+        return result.rows.length > 0;
     },
 
     // Update user password
-    updatePassword: (email, newPassword) => {
-        return new Promise((resolve, reject) => {
-            const sql = `UPDATE users SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE email = ?`;
-            
-            db.run(sql, [newPassword, email], function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(this.changes > 0);
-                }
-            });
+    updatePassword: async (email, newPassword) => {
+        const sql = `UPDATE users SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE email = ?`;
+        
+        const result = await db.execute({
+            sql,
+            args: [newPassword, email],
         });
+
+        return result.rowsAffected > 0;
     },
 
     // Update user profile
-    updateProfile: (email, updates) => {
-        return new Promise((resolve, reject) => {
-            const { username, password } = updates;
-            let sql = `UPDATE users SET updated_at = CURRENT_TIMESTAMP`;
-            const params = [];
+    updateProfile: async (email, updates) => {
+        const { username, password } = updates;
+        let sql = `UPDATE users SET updated_at = CURRENT_TIMESTAMP`;
+        const params = [];
 
-            if (username) {
-                sql += `, username = ?`;
-                params.push(username);
-            }
-            if (password) {
-                sql += `, password = ?`;
-                params.push(password);
-            }
+        if (username) {
+            sql += `, username = ?`;
+            params.push(username);
+        }
+        if (password) {
+            sql += `, password = ?`;
+            params.push(password);
+        }
 
-            sql += ` WHERE email = ?`;
-            params.push(email);
+        sql += ` WHERE email = ?`;
+        params.push(email);
 
-            db.run(sql, params, function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(this.changes > 0);
-                }
-            });
+        if (params.length === 1) { // only email is present
+            return false; // No fields to update
+        }
+
+        const result = await db.execute({
+            sql,
+            args: params,
         });
+
+        return result.rowsAffected > 0;
     }
 };
 
